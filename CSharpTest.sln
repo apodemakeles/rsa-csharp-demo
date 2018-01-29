@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpTest", "CSharpTest\CSharpTest.csproj", "{1FB4799A-EC6F-4A81-83E6-BE6FD7F4036E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSAUnitTest", "RSAUnitTest\RSAUnitTest.csproj", "{20E42EF8-5E42-403C-80DA-48B61FCA0BAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FB4799A-EC6F-4A81-83E6-BE6FD7F4036E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FB4799A-EC6F-4A81-83E6-BE6FD7F4036E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FB4799A-EC6F-4A81-83E6-BE6FD7F4036E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FB4799A-EC6F-4A81-83E6-BE6FD7F4036E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20E42EF8-5E42-403C-80DA-48B61FCA0BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20E42EF8-5E42-403C-80DA-48B61FCA0BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20E42EF8-5E42-403C-80DA-48B61FCA0BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20E42EF8-5E42-403C-80DA-48B61FCA0BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

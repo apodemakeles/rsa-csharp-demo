@@ -1,0 +1,6 @@
+packages/
+TestResults/
+CSharpTest/bin/
+CSharpTest/obj/
+RSAUnitTest/bin/
+RSAUnitTest/obj/
