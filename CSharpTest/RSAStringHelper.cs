@@ -26,19 +26,7 @@ namespace CSharpTest
 
             return new RSAStringKeyPair(Convert.ToBase64String(pair.PrivateKey), Convert.ToBase64String(pair.PublicKey));
         }
-
-        private static AsymmetricKeyParameter GetPublicKey(string s) 
-        {
-            return PublicKeyFactory.CreateKey(Convert.FromBase64String(s));
-        }
-
-        private static AsymmetricKeyParameter GetPrivateKey(string s)
-        {
-            return PrivateKeyFactory.CreateKey(Convert.FromBase64String(s));
-        }
-
         
-
 
         /// <summary>
         /// 通过公钥加密，一般用作信息解密
@@ -48,11 +36,7 @@ namespace CSharpTest
         /// <returns>加密结果Base64</returns>
         public static string EncrpytByPublicKey(string data, string publicKey)      
         {
-            IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
-
-            engine.Init(true, GetPublicKey(publicKey));
-            var bytes = Encoding.UTF8.GetBytes(data);
-            var result = engine.ProcessBlock(bytes, 0, bytes.Length);
+            var result = RSAUtils.EncrpytByPublicKey(Encoding.UTF8.GetBytes(data), Convert.FromBase64String(publicKey));                               
 
             return Convert.ToBase64String(result, 0, result.Length);
         }
@@ -65,15 +49,10 @@ namespace CSharpTest
         /// <returns>解密结果</returns>
         public static string DecryptByPrivateKey(string data, string privateKey)
         {
-            IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
-
-            engine.Init(false, GetPrivateKey(privateKey));
-            var bytes = Convert.FromBase64String(data);
-            var result = engine.ProcessBlock(bytes, 0, bytes.Length);
+            var result = RSAUtils.DecryptByPrivateKey(Convert.FromBase64String(data), Convert.FromBase64String(privateKey));
 
             return Encoding.UTF8.GetString(result, 0, result.Length);
         }
-
 
         /// <summary>
         /// 通过私钥加密，一般用作信息签名
@@ -83,17 +62,12 @@ namespace CSharpTest
         /// <returns>加密结果Base64</returns>
         public static string EncrpytByPrivateKey(string data, string privateKey) 
         {
-            IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
-
-            engine.Init(true, GetPrivateKey(privateKey));
-            var bytes = Encoding.UTF8.GetBytes(data);
-            var result = engine.ProcessBlock(bytes, 0, bytes.Length);
+            var result = RSAUtils.EncrpytByPrivateKey(Encoding.UTF8.GetBytes(data), Convert.FromBase64String(privateKey));
 
             return Convert.ToBase64String(result);
         }
 
         
-
         /// <summary>
         /// 通过公钥解密，一般用作信息验签
         /// </summary>
@@ -104,9 +78,7 @@ namespace CSharpTest
         {
             IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
 
-            engine.Init(false, GetPublicKey(publicKey));
-            var bytes = Convert.FromBase64String(data);
-            var result = engine.ProcessBlock(bytes, 0, bytes.Length);
+            var result = RSAUtils.DecryptByPublicKey(Convert.FromBase64String(data), Convert.FromBase64String(publicKey));                                             
 
             return Encoding.UTF8.GetString(result, 0, result.Length);
         }
