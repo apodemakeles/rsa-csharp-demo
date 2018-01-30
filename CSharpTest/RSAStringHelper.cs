@@ -34,9 +34,9 @@ namespace CSharpTest
         /// <param name="data">明文</param>
         /// <param name="publicKey">公钥Base64</param>
         /// <returns>加密结果Base64</returns>
-        public static string EncrpytByPublicKey(string data, string publicKey)      
+        public static string Encrypt(string data, string publicKey)      
         {
-            var result = RSAUtils.EncrpytByPublicKey(Encoding.UTF8.GetBytes(data), Convert.FromBase64String(publicKey));                               
+            var result = RSAUtils.Encrypt(Encoding.UTF8.GetBytes(data), Convert.FromBase64String(publicKey));                               
 
             return Convert.ToBase64String(result, 0, result.Length);
         }
@@ -47,40 +47,45 @@ namespace CSharpTest
         /// <param name="data">密文Base64</param>
         /// <param name="privateKey">私钥Base64</param>
         /// <returns>解密结果</returns>
-        public static string DecryptByPrivateKey(string data, string privateKey)
+        public static string Decrypt(string data, string privateKey)
         {
-            var result = RSAUtils.DecryptByPrivateKey(Convert.FromBase64String(data), Convert.FromBase64String(privateKey));
+            var result = RSAUtils.Decrypt(Convert.FromBase64String(data), Convert.FromBase64String(privateKey));
 
             return Encoding.UTF8.GetString(result, 0, result.Length);
         }
 
         /// <summary>
-        /// 通过私钥加密，一般用作信息签名
+        /// 通过私钥签名
         /// </summary>
         /// <param name="data">明文</param>
-        /// <param name="privateKey">Base64私钥</param>
-        /// <returns>加密结果Base64</returns>
-        public static string EncrpytByPrivateKey(string data, string privateKey) 
+        /// <param name="privateKey">私钥Base64</param>
+        /// <param name="hashAlgorithm">哈希算法</param>
+        /// <returns>签名结果Base64</returns>
+        public static string signToBase64(string data, string privateKey, string hashAlgorithm)
         {
-            var result = RSAUtils.EncrpytByPrivateKey(Encoding.UTF8.GetBytes(data), Convert.FromBase64String(privateKey));
+            var result = RSAUtils.sign(
+                Encoding.UTF8.GetBytes(data), 
+                Convert.FromBase64String(privateKey), 
+                hashAlgorithm);
 
             return Convert.ToBase64String(result);
         }
 
-        
         /// <summary>
-        /// 通过公钥解密，一般用作信息验签
+        /// 通过公钥验签
         /// </summary>
-        /// <param name="data">Base64密文</param>
-        /// <param name="publicKey">Base64公钥</param>
-        /// <returns>解密结果</returns>
-        public static string DecryptByPublicKey(string data, string publicKey)
+        /// <param name="data">明文</param>
+        /// <param name="publicKey">公钥Base64</param>
+        /// <param name="sign">签名Base64</param>
+        /// <param name="hashAlgorithm">哈希算法</param>
+        /// <returns></returns>
+        public static bool verifyFromBase64(string data, string publicKey, string sign, string hashAlgorithm)
         {
-            IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
-
-            var result = RSAUtils.DecryptByPublicKey(Convert.FromBase64String(data), Convert.FromBase64String(publicKey));                                             
-
-            return Encoding.UTF8.GetString(result, 0, result.Length);
+            return RSAUtils.verify(
+                Encoding.UTF8.GetBytes(data), 
+                Convert.FromBase64String(publicKey), 
+                Convert.FromBase64String(sign), 
+                hashAlgorithm);
         }
 
     }

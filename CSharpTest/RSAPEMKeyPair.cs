@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CSharpTest
 {
-    public class RSAKeyPair
+    public class RSAPEMKeyPair
     {
-        public byte[] PrivateKey { private set; get; }
-        public byte[] PublicKey { private set; get; }
+        public string PrivateKey { private set; get; } 
+        public string PublicKey { private set; get; }
 
-        public RSAKeyPair(byte[] privateKey, byte[] publicKey)
+        public RSAPEMKeyPair(string privateKey, string publicKey) 
         {
             this.PrivateKey = privateKey;
             this.PublicKey = publicKey;

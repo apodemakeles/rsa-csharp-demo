@@ -48,6 +48,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RSAKeyPair.cs" />
+    <Compile Include="RSAPEMKeyPair.cs" />
     <Compile Include="RSAStringHelper.cs" />
     <Compile Include="RSAStringKeyPair.cs" />
     <Compile Include="RSAUtils.cs" />
