@@ -61,7 +61,7 @@ namespace CSharpTest
         /// <param name="privateKey">私钥Base64</param>
         /// <param name="hashAlgorithm">哈希算法</param>
         /// <returns>签名结果Base64</returns>
-        public static string signToBase64(string data, string privateKey, string hashAlgorithm)
+        public static string SignToBase64(string data, string privateKey, string hashAlgorithm)
         {
             var result = RSAUtils.sign(
                 Encoding.UTF8.GetBytes(data), 
@@ -79,7 +79,7 @@ namespace CSharpTest
         /// <param name="sign">签名Base64</param>
         /// <param name="hashAlgorithm">哈希算法</param>
         /// <returns></returns>
-        public static bool verifyFromBase64(string data, string publicKey, string sign, string hashAlgorithm)
+        public static bool VerifyFromBase64(string data, string publicKey, string sign, string hashAlgorithm)
         {
             return RSAUtils.verify(
                 Encoding.UTF8.GetBytes(data), 

@@ -25,10 +25,10 @@ namespace CSharpTest
 
             //var pair = RSAUtils.GenKeyPEM(1024);
 
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] hashed = md5.ComputeHash(Encoding.UTF8.GetBytes("8f8c733bf4ab4a039d85d7d1d470759b"));
-            byte[] result = RSAUtils.EncryptByPrivateKey(hashed, Convert.FromBase64String(privateKey));
-            Console.WriteLine(Convert.ToBase64String(result));
+            //MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            //byte[] hashed = md5.ComputeHash(Encoding.UTF8.GetBytes("8f8c733bf4ab4a039d85d7d1d470759b"));
+            //byte[] result = RSAUtils.EncryptByPrivateKey(hashed, Convert.FromBase64String(privateKey));
+            //Console.WriteLine(Convert.ToBase64String(result));
 
 
             Console.ReadLine();

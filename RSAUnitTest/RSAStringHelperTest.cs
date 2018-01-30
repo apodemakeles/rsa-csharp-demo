@@ -35,25 +35,57 @@ namespace RSAUnitTest
         [TestMethod]
         public void sign_then_verify()
         {
-            var pair = RSAStringHelper.GenKeyPair(1024);
+            RSAStringKeyPair pair = RSAStringHelper.GenKeyPair(1024);
 
-            var textSigned = RSAStringHelper.EncryptByPrivateKey("hello world", pair.PrivateKey);
-            var text = RSAStringHelper.DecryptByPublicKey(textSigned, pair.PublicKey);
+            String textSigned = RSAStringHelper.SignToBase64("hello world", pair.PrivateKey, "MD5"); 
+            bool result = RSAStringHelper
+                    .VerifyFromBase64("hello world", pair.PublicKey, textSigned, "MD5");
 
-            Assert.AreEqual("hello world", text);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
         public void sign()
         {
-            var publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCAZ99PI8xQAjg23R7GA3KWI9xrFXBPFyR9y3Cs3KGF/JuJBp0MRvNu6vszCp104savWup5/u/PsmiX0aOKkKkcQz8fN4/jAwFaW7NCvVbICYCAedFgcmnUDa+RXkwO6X7HceENB/EH7AmiF+cTF7d8UzuXrlDrW7t4Eak9nOo34QIDAQAB";
-            var privateKey = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAIBn308jzFACODbdHsYDcpYj3GsVcE8XJH3LcKzcoYX8m4kGnQxG827q+zMKnXTixq9a6nn+78+yaJfRo4qQqRxDPx83j+MDAVpbs0K9VsgJgIB50WByadQNr5FeTA7pfsdx4Q0H8QfsCaIX5xMXt3xTO5euUOtbu3gRqT2c6jfhAgMBAAECgYARZQDdSa4t0H8o/39ht6nYKPd9EiRqsmnhGKQk5qaC7htrzpeLyDjF99MbsP5vjSD5NEm7SQvXiQWeO2n6JWqjFjWmEjmSakdlOSFmMeru/gQ4o3sOz6zjiRESJ5/dskautqmDA3GD9IozYJ/ylc/jiRnhJmWc6mBsp20qaPCGoQJBAMUiy3NW8fuU33/QMHyL1UgJ6yjbrh6nmRqlBTd04J+bEwZZG2el8EvFsi1f+0WRm/QMYMNEzIZqbXR8eeozx/0CQQCmv0veh9EGrfNRWBrAGNXHFHdzkiYNECqDuCiXlghWVd02S2YmppNFMu09TfbXGA3nME2TIqG+9ZqQb1IzALq1AkBmmaZjwEOvGZt9DSC/IZP+q1Ld7//eaoIP0QU3CLiDuRUcv7G4ry+ycBE89nBzk8YkLXELEDqWVrvi3YoiL5MNAkAHwfScqMLvxZ4BVdEAyOcBORGJne4JQ4xGzoWM79z5b0s4YG+jMrK9UG47IOpv/V2AOP4S71SJFtIXECbJ2qnVAkAOaYHCssdYskO364IIQNnvTGgV0ft//WdRoSPrageEwTlLX3JKW/YemB31v2DMXwpTEeh+rDZPskrYULXvf58K";
-
-            SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
-            byte[] hashed = sha1.ComputeHash(Encoding.UTF8.GetBytes("hello world"));
-            byte[] result = RSAUtils.EncryptByPrivateKey(hashed, Convert.FromBase64String(privateKey));
-
-            Console.WriteLine(Convert.ToBase64String(result));
+            RSAStringKeyPair pair =  RSAStringHelper.GenKeyPair(1024);
+            var privateKey = pair.PrivateKey;
+            var publicKey = pair.PublicKey;
+            
+            String textSigned = RSAStringHelper.SignToBase64("hello world", privateKey, "SHA1");
         }
+
+        [TestMethod]
+        public void verify()
+        {
+            string text = "123456";
+            string publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCMagLZkMaJZjx8PJOLQCtQqm/quBSO4b0FjlQYm+iGM+cEwzRMaGC3a0/nwXd1mfrUau83AIZQF5bvl0mBV1RsrZpMpOIn6OErThObsfu8vYPy7rIiUNNiIqIwtdifh7+BoLNzO1WejuKzOnPMPEUb6mv106m4xniOOWhn4Av4YQIDAQAB";
+            string signBase64 = "cYCX+McctQgYq4q1bpGMXCcw3RGyvGNJAk+sFmxb5coCLmAcEymGka0mMQHXyuBf/ViEpsek23gmSU41imQqc9IRJCk2swcY+VsDUA8F4pa7jNpXoqzAgblr1lFvMx/mAVqlxijZ4b2046h75U/jC/HGlIUDsgNF5oA3sd4l0fM=";
+
+            Assert.IsTrue(RSAStringHelper.VerifyFromBase64(text, publicKey, signBase64, "MD5"));
+        }
+
+        [TestMethod]
+        public void encrypt()
+        {
+            RSAStringKeyPair pair = RSAStringHelper.GenKeyPair(1024);
+            var privateKey = pair.PrivateKey;
+            var publicKey = pair.PublicKey;
+
+            string text = "andon";
+
+            string result = RSAStringHelper.Encrypt(text, publicKey);
+        }
+
+        [TestMethod]
+        public void decrypt()
+        {
+            string text = "Zyt4TEpN+U+zoCSm8WRzLq2r418fPnko+yjLwobbb+2cm9i+WJJa4oqIzd44yijyMbJJe/aEd9WIndhJiB9ritk3Cepq2Q9mbCcMrpfCdTax2UfDXZOWuEi7bRsIahhX2PtLSlbXaffBzZ137Nx0XkIeGfoUfctRlccipavChqk=";
+            string privateKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK23i8dl0FdDLsn27gHrXij27rarT5IgHFehehX6mHKwX+WS5ymvneMkaBr9vmsTBzstewQgOemDsCz+PDYUNRls92KZH3mawYoArW0e8qwOS7a+lsO8SAIM2KdQN4aYS5kZGTcSK1/QLp6Ajltt8fkuEKeibzgzDNiZEWF8WkvVAgMBAAECgYByQSZOH0jIHAfKDf68hHGJv9+BhWrwUO5TNIF3szpRNG/eLqCbakYN/wP5vKphAkLfSSp/rDJqw5I8BXrUlrXUzcJFtasDA4VeW8yYJ6+W+NmzPtHr5Ax801dMDqjAVUfV5j7bjxJHCQM6am3+YM3ztWNxFptSBi1KpGo0LxgYgQJBANcDR+KqZigzs4clh+fQTJmxz/TGXEHcs7Nip9wHPKNT8t5ZgE48HjbF7cgKa8A4WwTD8dZkEev51P/xgCbSFw8CQQDO1QKfvejKHkQgtiZIYgxaRmWY8KZBQj/oEgi7JPyeEKt3od10B9Tq4VpbJmDcmDylE3dOJ8vN0z8rVzqyxk7bAkAItrlTFlTNjEraT0sSuf5gvDQRV3ilsqwVuQnUgPaUJ/LP0BDDGuyei6b3VHTJdX860jYa2jNfvOBE/ySSbjFBAkAd2iq1yaA2w+WLXx7pZZVo1i5Fw74LPzegFDJEaJM5cSh+bNNcsuCtQfdbno9uZ16haMzYb+//dhTw+XcUZIDvAkEAitv/JsGySgOPKff3SMD+yD6sp9D40PcGKzzi1ZD8KdHQ8CkDDmBtRgIYUdgHynGjcZU2QVcfJs4MIs0BY+983w==";
+
+            string result = RSAStringHelper.Decrypt(text, privateKey);
+
+            Assert.AreEqual("hello world", result);
+        }
+
     }
 }
